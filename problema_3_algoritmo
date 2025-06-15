@@ -1,0 +1,74 @@
+char verifica(char tab[3][3]) {
+    int i;
+#include <stdio.h>
+
+char verifica(char tab[3][3]) {
+    int i;
+    for (i = 0; i < 3; i++) {
+        if (tab[i][0] == tab[i][1] && tab[i][1] == tab[i][2] && tab[i][0] != ' ')
+            return tab[i][0];
+        if (tab[0][i] == tab[1][i] && tab[1][i] == tab[2][i] && tab[0][i] != ' ')
+            return tab[0][i];
+    }
+    if (tab[0][0] == tab[1][1] && tab[1][1] == tab[2][2] && tab[0][0] != ' ')
+        return tab[0][0];
+    if (tab[0][2] == tab[1][1] && tab[1][1] == tab[2][0] && tab[0][2] != ' ')
+        return tab[0][2];
+    return ' ';
+}
+
+int main() {
+    char tab[3][3];
+    int i, j;
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            tab[i][j] = ' ';
+
+    int lin, col, cont = 0;
+    char jogador = 'X';
+    char ganhador = ' ';
+
+    while (cont < 9) {
+        for (i = 0; i < 3; i++) {
+            printf(" %c | %c | %c \n", tab[i][0], tab[i][1], tab[i][2]);
+            if (i < 2) printf("---+---+---\n");
+        }
+
+        printf("Jogador %c, informe linha e coluna (1 a 3): ", jogador);
+        scanf("%d %d", &lin, &col);
+
+        lin = lin - 1;
+        col = col - 1;
+
+        if (lin < 0 || lin > 2 || col < 0 || col > 2 || tab[lin][col] != ' ') {
+            printf("Posição inválida. Tente novamente.\n");
+            continue;
+        }
+
+        tab[lin][col] = jogador;
+        cont++;
+
+        ganhador = verifica(tab);
+        if (ganhador != ' ') {
+            for (i = 0; i < 3; i++) {
+                printf(" %c | %c | %c \n", tab[i][0], tab[i][1], tab[i][2]);
+                if (i < 2) printf("---+---+---\n");
+            }
+            printf("Jogador %c venceu!\n", ganhador);
+            return 0;
+        }
+
+        if (jogador == 'X')
+            jogador = 'O';
+        else
+            jogador = 'X';
+    }
+
+    for (i = 0; i < 3; i++) {
+        printf(" %c | %c | %c \n", tab[i][0], tab[i][1], tab[i][2]);
+        if (i < 2) printf("---+---+---\n");
+    }
+
+    printf("Empate!\n");
+    return 0;
+}
